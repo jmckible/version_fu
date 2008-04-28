@@ -33,6 +33,8 @@ module VersionFu
                             :foreign_key => versioned_foreign_key,
                             :order       => 'version',
                             :dependent   => :delete_all
+
+        after_create :save_version_on_create
       end
 
       # Versioned Model
@@ -59,6 +61,17 @@ module VersionFu
     def versioned_attributes
       self.attributes.keys - self.non_versioned_columns
     end
+    
+    def save_version_on_create
+      version = versions.build
+      versioned_attributes.each do |attribute|
+        version.__send__ "#{attribute}=", __send__(attribute)
+      end
+      version.version = 1
+      version.save
+      update_attribute :version, 1
+    end
+    
   end
   
 end
