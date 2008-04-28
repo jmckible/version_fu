@@ -32,14 +32,41 @@ module VersionFu
         has_many :versions, :class_name  => "#{self.to_s}::#{versioned_class_name}",
                             :foreign_key => versioned_foreign_key,
                             :order       => 'version',
-                            :dependent   => :delete_all
+                            :dependent   => :delete_all do
+          def latest
+            find :first, :order=>'version desc'
+          end                    
+        end
 
-        after_create :save_version_on_create
+        before_save :setup_revision
       end
 
       # Versioned Model
       const_set(versioned_class_name, Class.new(ActiveRecord::Base)).class_eval do
         def self.reloadable? ; false ; end
+        # find first version before the given version
+        def self.before(version)
+          find :first, :order => 'version desc',
+            :conditions => ["#{original_class.versioned_foreign_key} = ? and version < ?", version.send(original_class.versioned_foreign_key), version.version]
+        end
+
+        # find first version after the given version.
+        def self.after(version)
+          find :first, :order => 'version',
+            :conditions => ["#{original_class.versioned_foreign_key} = ? and version > ?", version.send(original_class.versioned_foreign_key), version.version]
+        end
+
+        def previous
+          self.class.before(self)
+        end
+
+        def next
+          self.class.after(self)
+        end
+
+        def versions_count
+          page.version
+        end
       end
 
       versioned_class.cattr_accessor :original_class
@@ -58,18 +85,28 @@ module VersionFu
 
 
   module InstanceMethods
+    
+    def find_version(number)
+      versions.find :first, :conditions=>{:version=>number}
+    end
+    
     def versioned_attributes
       self.attributes.keys - self.non_versioned_columns
     end
     
-    def save_version_on_create
-      version = versions.build
+    def setup_revision
+      new_version = versions.build
       versioned_attributes.each do |attribute|
-        version.__send__ "#{attribute}=", __send__(attribute)
+        new_version.__send__ "#{attribute}=", __send__(attribute)
       end
-      version.version = 1
-      version.save
-      update_attribute :version, 1
+      if new_record?
+        new_version.version = 1
+        self.version = 1
+      else
+        version_number = version + 1
+        new_version.version = version_number
+        self.version = version_number
+      end
     end
     
   end

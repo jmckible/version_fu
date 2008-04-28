@@ -5,3 +5,7 @@ larry:
 sara:
   id: 2
   name: Sara
+  
+peter:
+  id: 3
+  name: Peter
