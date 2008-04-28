@@ -94,12 +94,21 @@ module VersionFu
       self.attributes.keys - self.non_versioned_columns
     end
     
+    def versioned_column_changed?
+      versioned_attributes.detect {|a| __send__ "#{a}_changed?"}
+    end
+    
     def setup_revision
+      instatiate_revision if versioned_column_changed?
+    end
+    
+    def instatiate_revision
       new_version = versions.build
       versioned_attributes.each do |attribute|
         new_version.__send__ "#{attribute}=", __send__(attribute)
       end
       if new_record?
+        # In case version column does not default to 1
         new_version.version = 1
         self.version = 1
       else

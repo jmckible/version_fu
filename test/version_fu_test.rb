@@ -81,6 +81,21 @@ class VersionFuTest < Test::Unit::TestCase
   end
   
   #############################################################################
+  #                           S K I P    V E R S I O N I N G                  #
+  #############################################################################
+  def test_do_not_create_version_if_nothing_changed
+    old_count = Page::Version.count
+    pages(:welcome).save
+    assert_equal old_count, Page::Version.count
+  end  
+  
+  def test_do_not_create_version_if_untracked_attribute_changed
+    old_count = Page::Version.count
+    pages(:welcome).update_attributes :author=>authors(:sara)
+    assert_equal old_count, Page::Version.count
+  end
+  
+  #############################################################################
   #                                      F I N D                              #
   #############################################################################
   def test_find_version_given_number
