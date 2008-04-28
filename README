@@ -3,3 +3,4 @@ version_fu
 
 version_fu is a ActveRecord versioning plugin that takes advantage of the new dirty attribute checking available in Edge Rails (to be released in version 2.1). Previous solutions like Rick Olsen's acts_as_versioned are no long compatible with Rails.
 
+This is definitely a work in progress.  I'm currently just transitioning the elements of acts_as_versioned I use in one project. 
