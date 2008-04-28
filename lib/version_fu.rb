@@ -4,21 +4,28 @@ module VersionFu
   end
 
   module ClassMethods
-    def version_fu
+    def version_fu(options={})
       return if self.included_modules.include? VersionFu::InstanceMethods
       __send__ :include, VersionFu::InstanceMethods
 
-      cattr_accessor :versioned_class_name, :versioned_foreign_key, :versioned_table_name, :versioned_inheritance_column, 
-        :version_column, :non_versioned_columns
-        
-      send :attr_accessor, :aav_changed_attributes
+      cattr_accessor :versioned_class_name, :versioned_foreign_key, :versioned_table_name, 
+                     :versioned_inheritance_column, :version_column, :non_versioned_columns
 
       self.versioned_class_name         = "Version"
       self.versioned_foreign_key        = self.to_s.foreign_key
       self.versioned_table_name         = "#{table_name_prefix}#{base_class.name.demodulize.underscore}_versions#{table_name_suffix}"
       self.versioned_inheritance_column = "versioned_#{inheritance_column}"
       self.version_column               = 'version'
-      self.non_versioned_columns        = [self.primary_key, inheritance_column, 'version', 'lock_version', versioned_inheritance_column]
+      
+      # Configure which attributes to track
+      self.non_versioned_columns = [self.primary_key, inheritance_column, 'version', 'lock_version', versioned_inheritance_column, 'created_at', 'updated_at']
+      unless options[:skip].nil?
+        if options[:skip].is_a?(Array)
+          self.non_versioned_columns = non_versioned_columns + options[:skip].collect(&:to_s)
+        else
+          self.non_versioned_columns << options[:skip].to_s
+        end
+      end
 
       # Setup versions association
       class_eval do
@@ -49,6 +56,9 @@ module VersionFu
 
 
   module InstanceMethods
+    def versioned_attributes
+      self.attributes.keys - self.non_versioned_columns
+    end
   end
   
 end

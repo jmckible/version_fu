@@ -1,3 +1,3 @@
 class Page < ActiveRecord::Base
-  version_fu
+  version_fu :skip=>:creator_id
 end

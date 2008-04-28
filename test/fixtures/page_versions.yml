@@ -6,3 +6,4 @@ welcome_1:
   body: Initial body
   created_at: <%= 1.hour.ago.to_s :db %>
   updated_at: <%= 1.hour.ago.to_s :db %>
+  author_id: 1
