@@ -4,7 +4,7 @@ module VersionFu
   end
 
   module ClassMethods
-    def version_fu(options={})
+    def version_fu(options={}, &block)
       return if self.included_modules.include? VersionFu::InstanceMethods
       __send__ :include, VersionFu::InstanceMethods
 
@@ -40,7 +40,7 @@ module VersionFu
 
         before_save :setup_revision
       end
-
+      
       # Versioned Model
       const_set(versioned_class_name, Class.new(ActiveRecord::Base)).class_eval do
         def self.reloadable? ; false ; end
@@ -66,7 +66,7 @@ module VersionFu
 
         def versions_count
           page.version
-        end
+        end        
       end
 
       versioned_class.cattr_accessor :original_class
@@ -75,6 +75,7 @@ module VersionFu
       versioned_class.belongs_to self.to_s.demodulize.underscore.to_sym, 
         :class_name  => "::#{self.to_s}", 
         :foreign_key => versioned_foreign_key
+      versioned_class.class_eval &block if block_given?
     end
     
     def versioned_class

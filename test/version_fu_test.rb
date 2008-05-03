@@ -14,7 +14,7 @@ class VersionFuTest < Test::Unit::TestCase
   end
   
   def test_version_belongs_to_parent
-    assert_equal page_versions(:welcome_1).page, pages(:welcome)
+    assert_equal pages(:welcome), page_versions(:welcome_1).page
   end
   
   #############################################################################
@@ -81,7 +81,7 @@ class VersionFuTest < Test::Unit::TestCase
   end
   
   #############################################################################
-  #                           S K I P    V E R S I O N I N G                  #
+  #                         S K I P    V E R S I O N I N G                    #
   #############################################################################
   def test_do_not_create_version_if_nothing_changed
     old_count = Page::Version.count
@@ -96,7 +96,7 @@ class VersionFuTest < Test::Unit::TestCase
   end
   
   #############################################################################
-  #                                      F I N D                              #
+  #                                 F I N D                                   #
   #############################################################################
   def test_find_version_given_number
     assert_equal page_versions(:welcome_1), pages(:welcome).find_version(1)
@@ -113,6 +113,13 @@ class VersionFuTest < Test::Unit::TestCase
   
   def test_find_next_version
      assert_equal page_versions(:welcome_2), page_versions(:welcome_1).next
+  end
+  
+  #############################################################################
+  #                    B L O C K    E X T E N S I O N                         #
+  #############################################################################
+  def test_should_take_a_block_containing_ar_extention
+    assert_equal authors(:larry), page_versions(:welcome_1).author
   end
   
 end
