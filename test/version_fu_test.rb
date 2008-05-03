@@ -21,11 +21,15 @@ class VersionFuTest < Test::Unit::TestCase
   #                              A T T R I B U T E S                          #
   #############################################################################
   def test_should_version_proper_attributes
-    assert_equal ['title', 'body', 'author_id'], Page.new.versioned_attributes
+    assert_equal ['title', 'body', 'author_id'], Page.new.versioned_columns
+  end
+  
+  def test_should_not_version_non_existing_column
+    assert !Page.new.versioned_columns.include?(:creator_id)
   end
   
   #############################################################################
-  #                                   C R E A T E                             #
+  #                               C R E A T E                                 #
   #############################################################################
   def test_should_save_version_on_create
     old_count = Page.count
