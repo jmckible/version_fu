@@ -84,7 +84,12 @@ module VersionFu
     end
     
     def check_for_new_version
-      instatiate_revision if any_versioned_column_changed?
+      instatiate_revision if create_new_version?
+    end
+    
+    # This the method to override if you want to have more control over when to version
+    def create_new_version?
+      any_versioned_column_changed?
     end
         
     def any_versioned_column_changed?

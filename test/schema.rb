@@ -1,7 +1,16 @@
 ActiveRecord::Schema.define(:version=>0) do
   
   create_table :authors, :force=>true do |t|
-    t.column :name, :string, :limit=>255
+    t.column :version, :integer
+    t.column :first_name, :string, :limit=>255
+    t.column :last_name, :string, :limit=>255
+  end
+  
+  create_table :author_versions, :force=>true do |t|
+    t.column :author_id, :integer
+    t.column :version, :integer
+    t.column :first_name, :string, :limit=>255
+    t.column :last_name, :string, :limit=>255
   end
   
   create_table :pages, :force=>true do |t|

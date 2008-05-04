@@ -3,8 +3,9 @@ require File.join(File.dirname(__FILE__), 'fixtures/author')
 require File.join(File.dirname(__FILE__), 'fixtures/page')
 
 class VersionFuTest < Test::Unit::TestCase
-  fixtures :pages, :page_versions, :authors
+  fixtures :pages, :page_versions, :authors, :author_versions
   set_fixture_class :page_versions => Page::Version
+  set_fixture_class :author_versions => Author::Version
   
   #############################################################################
   #                         A S S O C I A T I O N S                           #
@@ -97,6 +98,12 @@ class VersionFuTest < Test::Unit::TestCase
     old_count = Page::Version.count
     pages(:welcome).update_attributes :author=>authors(:sara)
     assert_equal old_count, Page::Version.count
+  end
+  
+  def test_allow_version_checking_override
+    old_count = Author::Version.count
+    authors(:larry).update_attributes :last_name=>'Lessig'
+    assert_equal old_count, Author::Version.count
   end
   
   #############################################################################
