@@ -99,11 +99,16 @@ class VersionFuTest < Test::Unit::TestCase
     pages(:welcome).update_attributes :author=>authors(:sara)
     assert_equal old_count, Page::Version.count
   end
-  
-  def test_allow_version_checking_override
+    
+  def test_do_not_create_version_if_custom_version_check
     old_count = Author::Version.count
     authors(:larry).update_attributes :last_name=>'Lessig'
     assert_equal old_count, Author::Version.count
+  end
+
+  def test_still_save_if_no_new_version_with_custom_version_check
+    authors(:larry).update_attributes :last_name=>'Lessig'
+    assert_equal 'Lessig', authors(:larry).reload.last_name
   end
   
   #############################################################################

@@ -85,14 +85,12 @@ module VersionFu
     
     def check_for_new_version
       instatiate_revision if create_new_version?
+      true # Never halt save
     end
     
     # This the method to override if you want to have more control over when to version
     def create_new_version?
-      any_versioned_column_changed?
-    end
-        
-    def any_versioned_column_changed?
+      # Any versioned column changed?
       self.class.versioned_columns.detect {|a| __send__ "#{a}_changed?"}
     end
     
