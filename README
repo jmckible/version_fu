@@ -1,7 +1,7 @@
 version_fu
 ==========
 
-version_fu is a ActveRecord versioning plugin that takes advantage of the new dirty attribute checking available in Edge Rails (to be released in version 2.1). Previous solutions like Rick Olson's acts_as_versioned are no long compatible with Rails.
+version_fu is a ActveRecord versioning plugin that takes advantage of the new dirty attribute checking available in Rails 2.1. Previous solutions like Rick Olson's acts_as_versioned are no long compatible with Rails.
 
 
 Installation
@@ -60,6 +60,23 @@ end
 Thats it.
 
 
+Configuration
+=============
+
+You can pass a few configuration options if need be.  If you stick with the defaults above, you can skip all this.
+
+class Page < ActiveRecord::Base
+  version_fu :class_name=>'Version', :foreign_key=>'page_id', :table_name=>'page_versions', :version_column=>'version'
+end
+
+:class_name - The name of the versioned class.  It will be a submodule of the versioning class - e.g. Page::Version
+
+:foreign_key - The column in the versioned table associated with the versioning class
+
+:table_name - The name of the versioned table
+
+:version_column - The name of the version column
+
 
 Extensions
 ==========
@@ -73,6 +90,19 @@ class Page < ActiveRecord::Base
 end
 
 Don't forget the class name, or you'll get a warning
+
+
+Method Missing
+==============
+
+If you call a method on a version and it's undefined, it'll be sent to the parent.  For example, pages could have a creator attribute that doesn't change and is therefore unversioned.  You don't need to define a creator method in the version_fu block.
+
+class Page < ActiveRecord::Base
+  version_fu
+  belongs_to :creator
+end
+
+Calling Pages.first.versions.latest.creator will be the same as calling Pages.first.creator.
 
 
 When to Version
