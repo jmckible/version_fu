@@ -132,10 +132,27 @@ class VersionFuTest < Test::Unit::TestCase
   end
   
   #############################################################################
-  #                    B L O C K    E X T E N S I O N                         #
+  #                        B L O C K    E X T E N S I O N                     #
   #############################################################################
   def test_should_take_a_block_containing_ar_extention
     assert_equal authors(:larry), page_versions(:welcome_1).author
+  end
+  
+  #############################################################################
+  #                         M E T H O D    M I S S I N G                      #
+  #############################################################################
+  def test_should_send_missing_associations_to_parent_object
+    assert_equal authors(:larry), page_versions(:welcome_1).creator
+  end
+  
+  def test_should_send_regular_missing_methods_to_parent_object
+    assert_equal "Hello World 1", author_versions(:sara_1).hello_world
+    assert_equal "Hello World 2", author_versions(:sara_1).hello_world(2) # Test passing params
+  end
+  
+  def test_should_eval_missing_methods_from_parent_in_versioned_class_binding
+    # TODO Should probably be "Sara Maiden"
+    assert_equal "Sara Smiles", author_versions(:sara_1).name
   end
   
 end
