@@ -11,11 +11,11 @@ module VersionFu
       cattr_accessor :versioned_class_name, :versioned_foreign_key, :versioned_table_name, 
                      :versioned_inheritance_column, :version_column, :versioned_columns
 
-      self.versioned_class_name         = "Version"
-      self.versioned_foreign_key        = self.to_s.foreign_key
-      self.versioned_table_name         = "#{table_name_prefix}#{base_class.name.demodulize.underscore}_versions#{table_name_suffix}"
-      self.versioned_inheritance_column = "versioned_#{inheritance_column}"
-      self.version_column               = 'version'
+      self.versioned_class_name         = options[:class_name]  || 'Version'
+      self.versioned_foreign_key        = options[:foreign_key] || self.to_s.foreign_key
+      self.versioned_table_name         = options[:table_name]  || "#{table_name_prefix}#{base_class.name.demodulize.underscore}_versions#{table_name_suffix}"
+      self.versioned_inheritance_column = options[:inheritance_column] || "versioned_#{inheritance_column}"
+      self.version_column               = options[:version_columne]    || 'version'
 
       # Setup versions association
       class_eval do
