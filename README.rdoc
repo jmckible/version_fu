@@ -86,19 +86,6 @@ Now that you've got some versions, it would be nice to use ActiveRecord associat
 
 Don't forget the class name, or you'll get a warning
 
-
-== Method Missing
-
-If you call a method on a version and it's undefined, it'll be sent to the parent.  For example, pages could have a creator attribute that doesn't change and is therefore unversioned.  You don't need to define a creator method in the version_fu block.
-
-  class Page < ActiveRecord::Base
-    version_fu
-    belongs_to :creator
-  end
-
-Calling Pages.first.versions.latest.creator will be the same as calling Pages.first.creator.
-
-
 == When to Version
 
 By default a new version will be saved whenever a versioned column is changed.  However, you can control this at a more fine grained level.  Just override the create_new_version? method.  For example, let's say you only want to save a new version if both the page title and body changed.  Taking advantage of the dirty attribute methods, you could do something like this:
