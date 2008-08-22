@@ -20,7 +20,6 @@ module VersionFu
       class_eval do
         has_many :versions, :class_name  => "#{self.to_s}::#{versioned_class_name}",
                             :foreign_key => versioned_foreign_key,
-                            :order       => version_column,
                             :dependent   => :destroy do
           def latest
             find :first, :order=>'version desc'
