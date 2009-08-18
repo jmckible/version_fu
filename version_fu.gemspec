@@ -13,16 +13,6 @@ Gem::Specification.new do |s|
     "README.rdoc"
   ]
   s.files = [
-    ".gitignore",
-     ".idea/encodings.xml",
-     ".idea/inspectionProfiles/Project_Default.xml",
-     ".idea/inspectionProfiles/profiles_settings.xml",
-     ".idea/misc.xml",
-     ".idea/modules.xml",
-     ".idea/projectCodeStyle.xml",
-     ".idea/vcs.xml",
-     ".idea/version_fu.iml",
-     ".idea/workspace.xml",
      "MIT-LICENSE",
      "README.rdoc",
      "RUNNING_UNIT_TESTS",
