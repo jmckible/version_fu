@@ -12,9 +12,6 @@ ActiveRecord::Base.establish_connection(ActiveRecord::Base.configurations['test'
 
 load(File.dirname(__FILE__) + '/db/schema.rb')
 
-require File.join(File.dirname(__FILE__), 'fixtures/author')
-require File.join(File.dirname(__FILE__), 'fixtures/page')
-
 class ActiveSupport::TestCase
   include ActiveRecord::TestFixtures
 
