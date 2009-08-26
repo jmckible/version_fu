@@ -1,33 +1,32 @@
 require 'test_helper'
 
 class VersionFuTest < ActiveSupport::TestCase
-  
   #############################################################################
   #                         A S S O C I A T I O N S                           #
   #############################################################################
-  def test_parent_has_many_version
+  test 'parent has many versions' do
     assert_equal page_versions(:welcome_1, :welcome_2), pages(:welcome).versions 
   end
   
-  def test_version_belongs_to_parent
+  test 'version belongs to parent' do
     assert_equal pages(:welcome), page_versions(:welcome_1).page
   end
   
   #############################################################################
   #                              A T T R I B U T E S                          #
   #############################################################################
-  def test_should_version_proper_attributes
+  test 'version proper columns' do
     assert_equal ['title', 'body', 'author_id'], Page.new.versioned_columns
   end
   
-  def test_should_not_version_non_existing_column
+  test 'do not version non-existing columns' do
     assert !Page.new.versioned_columns.include?(:creator_id)
   end
   
   #############################################################################
   #                               C R E A T E                                 #
   #############################################################################
-  def test_should_save_version_on_create
+  test 'save version on create' do
     old_count = Page.count
     old_version_count = Page::Version.count
     page = Page.create :title=>'New', :body=>'body', :creator=>authors(:larry), :author=>authors(:larry)
@@ -35,18 +34,18 @@ class VersionFuTest < ActiveSupport::TestCase
     assert_equal old_version_count + 1, Page::Version.count
   end
   
-  def test_wire_up_association_on_create
+  test 'wire up associations on create' do
     page = Page.create :title=>'New', :body=>'body', :creator=>authors(:larry), :author=>authors(:larry)
     assert_equal Page::Version.find(:first, :order=>'id desc'), page.versions.first
   end
   
-  def test_begin_version_numbering_at_one
+  test 'begin version numbering at 1' do
     page = Page.create :title=>'New', :body=>'body', :creator=>authors(:larry), :author=>authors(:larry)
     assert_equal 1, page.version
     assert_equal 1, page.versions.first.version
   end
   
-  def test_assigns_attributes_on_create
+  test 'assign attributes on create' do
     page = Page.create :title=>'New', :body=>'body', :creator=>authors(:larry), :author=>authors(:larry)
     version = page.versions.first
     assert_equal 'New', version.title
@@ -57,21 +56,21 @@ class VersionFuTest < ActiveSupport::TestCase
   #############################################################################
   #                                   U P D A T E                             #
   #############################################################################
-  def test_should_save_version_on_update
+  test 'save version on update' do
     old_count = Page::Version.count
     page = pages(:welcome)
     page.update_attributes :title=>'New title', :body=>'new body', :author=>authors(:sara)
     assert_equal old_count + 1, Page::Version.count
   end
   
-  def test_should_increment_version_number
+  test 'increment verson number' do
     page = pages(:welcome)
     old_count = page.version
     page.update_attributes :title=>'New title', :body=>'new body', :author=>authors(:sara)
     assert_equal old_count + 1, page.reload.version
   end
   
-  def test_update_version_attributes
+  test 'update version attributes' do
     page = pages(:welcome)
     page.update_attributes :title=>'Latest', :body=>'newest', :author=>authors(:peter)
     version = page.reload.versions.latest
@@ -83,25 +82,25 @@ class VersionFuTest < ActiveSupport::TestCase
   #############################################################################
   #                         S K I P    V E R S I O N I N G                    #
   #############################################################################
-  def test_do_not_create_version_if_nothing_changed
+  test 'do not create version if nothing changed' do
     old_count = Page::Version.count
     pages(:welcome).save
     assert_equal old_count, Page::Version.count
   end  
   
-  def test_do_not_create_version_if_untracked_attribute_changed
+  test 'do not create version if untracked attribute changed' do
     old_count = Page::Version.count
     pages(:welcome).update_attributes :author=>authors(:sara)
     assert_equal old_count, Page::Version.count
   end
     
-  def test_do_not_create_version_if_custom_version_check
+  test 'do not create version if custom version check' do
     old_count = Author::Version.count
     authors(:larry).update_attributes :last_name=>'Lessig'
     assert_equal old_count, Author::Version.count
   end
 
-  def test_still_save_if_no_new_version_with_custom_version_check
+  test 'still save if no new version with custom version check' do
     authors(:larry).update_attributes :last_name=>'Lessig'
     assert_equal 'Lessig', authors(:larry).reload.last_name
   end
@@ -109,27 +108,27 @@ class VersionFuTest < ActiveSupport::TestCase
   #############################################################################
   #                                 F I N D                                   #
   #############################################################################
-  def test_find_version_given_number
+  test 'find version given number' do
     assert_equal page_versions(:welcome_1), pages(:welcome).find_version(1)
     assert_equal page_versions(:welcome_2), pages(:welcome).find_version(2)
   end
   
-  def test_find_latest_version
+  test 'find latest version' do
     assert_equal page_versions(:welcome_2), pages(:welcome).versions.latest
   end
   
-  def test_find_previous_version
+  test 'find previous version' do
     assert_equal page_versions(:welcome_1), page_versions(:welcome_2).previous
   end
   
-  def test_find_next_version
+  test 'find next version' do
      assert_equal page_versions(:welcome_2), page_versions(:welcome_1).next
   end
   
   #############################################################################
   #                        B L O C K    E X T E N S I O N                     #
   #############################################################################
-  def test_should_take_a_block_containing_ar_extention
+  test 'take a block containing ActiveRecord extension' do
     assert_equal authors(:larry), page_versions(:welcome_1).author
   end
 end
