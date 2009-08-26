@@ -1,11 +1,6 @@
 require File.join(File.dirname(__FILE__), 'test_helper')
-require File.join(File.dirname(__FILE__), 'fixtures/author')
-require File.join(File.dirname(__FILE__), 'fixtures/page')
 
-class VersionFuTest < Test::Unit::TestCase
-  fixtures :pages, :page_versions, :authors, :author_versions
-  set_fixture_class :page_versions => Page::Version
-  set_fixture_class :author_versions => Author::Version
+class VersionFuTest < ActiveSupport::TestCase
   
   #############################################################################
   #                         A S S O C I A T I O N S                           #
