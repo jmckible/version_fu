@@ -1,10 +1,10 @@
-require File.join(File.dirname(__FILE__), 'test_helper')
+require 'test_helper'
 
 class VersionFuTest < ActiveSupport::TestCase
   
   #############################################################################
   #                         A S S O C I A T I O N S                           #
-  #############################################################################           
+  #############################################################################
   def test_parent_has_many_version
     assert_equal page_versions(:welcome_1, :welcome_2), pages(:welcome).versions 
   end
