@@ -85,6 +85,18 @@ module VersionFu
       versions.find :first, :conditions=>{:version=>number}
     end
     
+    # rolls back the content of the versioned table to the given version number, creating a new version
+    def recover_version!(number)
+      version = find_version(number)
+      raise "Version not found" if version.nil?
+      
+      versioned_columns.each do |attribute|
+        self.__send__ "#{attribute}=", version.__send__(attribute)
+      end
+      
+      save!
+    end
+    
     def check_for_new_version
       instatiate_revision if create_new_version?
       true # Never halt save

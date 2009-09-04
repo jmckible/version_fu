@@ -131,4 +131,29 @@ class VersionFuTest < ActiveSupport::TestCase
   test 'take a block containing ActiveRecord extension' do
     assert_equal authors(:larry), page_versions(:welcome_1).author
   end
+  
+  #############################################################################
+  #                        RECOVER THE CONTENT OF A VERSION                   #
+  #############################################################################  
+  test 'recover a previous version' do
+    versions = pages(:welcome).versions.size
+    
+    pages(:welcome).recover_version!(1)
+
+    assert_equal versions+1, pages(:welcome).versions.size
+    assert_equal pages(:welcome).body, pages(:welcome).versions.first.body    
+    assert_equal pages(:welcome).title, pages(:welcome).versions.first.title    
+  end
+  
+  test 'try to recover an unexisting version' do
+    versions = pages(:welcome).versions.size
+
+    begin
+      pages(:welcome).recover_version!(versions.size+1)
+      fail "Version not found should not allow a recover!"
+    rescue
+    end
+
+  end  
+    
 end
