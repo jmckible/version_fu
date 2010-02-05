@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project relativePaths="false" version="4">
+  <component name="DependencyValidationManager">
+    <option name="SKIP_IMPORT_STATEMENTS" value="false" />
+  </component>
+  <component name="ProjectDetails">
+    <option name="projectName" value="version_fu" />
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="JRuby SDK 1.3.1 (/etc/jruby-1.3.1/bin/jruby)" project-jdk-type="JRUBY_SDK" />
+  <component name="SvnBranchConfigurationManager">
+    <option name="mySupportsUserInfoFilter" value="true" />
+  </component>
+</project>
+
