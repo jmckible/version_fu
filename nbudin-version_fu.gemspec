@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
      "VERSION",
      "lib/version_fu.rb",
      "lib/version_fu/version_fu.rb",
+     "nbudin-version_fu.gemspec",
      "rails/init.rb",
      "test/db/database.yml",
      "test/db/schema.rb",

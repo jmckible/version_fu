@@ -22,7 +22,7 @@ begin
     gemspec.summary = "Gemified version of the version_fu plugin, tracking changes from revo and jmckible."
     gemspec.description = "version_fu is a ActveRecord versioning gem that takes advantage of the new dirty attribute checking available in Rails 2.1. Previous solutions like Rick Olson's acts_as_versioned are no long compatible with Rails."
     gemspec.email = ""
-    gemspec.homepage = ""
+    gemspec.homepage = "http://github.com/nbudin/version_fu"
     gemspec.authors = ["Jordan McKible"]
   end
 rescue LoadError
