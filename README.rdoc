@@ -6,7 +6,7 @@ nbudin-version_fu is Nat Budin's attempt to merge revo's Gemified version with j
 
 == Installation
 
-  gem install nbudin-acts_as_versioned
+  gem install nbudin-version_fu
 
 === Installation in a Rails application
 
