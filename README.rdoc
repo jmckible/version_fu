@@ -1,12 +1,10 @@
 = version_fu
 
-version_fu is a ActveRecord versioning plugin that that is based on the dirty attribute checking introduced in Rails 2.1. It has been updated for compatibility with Rails 3. P
+version_fu is a ActveRecord versioning plugin that that is based on the dirty attribute checking introduced in Rails 2.1. It has been updated for compatibility with Rails 3.
 
 == Installation
 
   gem install version_fu
-
-=== Installation in a Rails application
 
 If you're using Rails 3, add it to your Gemfile
 
