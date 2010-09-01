@@ -1,22 +1,16 @@
 = version_fu
 
-version_fu is a ActveRecord versioning plugin that takes advantage of the new dirty attribute checking available in Rails 2.1. Previous solutions like Rick Olson's acts_as_versioned are no long compatible with Rails.
-
-nbudin-version_fu is Nat Budin's attempt to merge revo's Gemified version with jmckible's latest additions and fixes.  Nat hopes to have these changes merged into mainline version_fu eventually so that it can be released as a gem.
+version_fu is a ActveRecord versioning plugin that that is based on the dirty attribute checking introduced in Rails 2.1. It has been updated for compatibility with Rails 3. P
 
 == Installation
 
-  gem install nbudin-version_fu
+  gem install version_fu
 
 === Installation in a Rails application
 
-In your config/environment.rb, or in an initializer, add the line:
+If you're using Rails 3, add it to your Gemfile
 
-  config.gem "nbudin-version_fu", :lib => "version_fu", :source => "http://gemcutter.org"
-
-Then run:
-
-  sudo rake gems:install
+  gem 'version_fu'
 
 == Usage
 
@@ -114,8 +108,8 @@ By default a new version will be saved whenever a versioned column is changed.  
 
 * version_fu was created by Jordan McKible http://jordan.mckible.com
 
-* Available on GitHub at http://github.com/jmckible/version_fu/tree/master
+* Available on GitHub at http://github.com/jmckible/version_fu
 
-* Hosted on Gemcutter, at least for now, at http://gemcutter.org/gems/nbudin-version_fu
+* Available on RubyGems.org at http://rubygems.org/gems/version_fu
 
 * acts_as_versioned by Rick Olson http://github.com/technoweenie/acts_as_versioned/tree/master
