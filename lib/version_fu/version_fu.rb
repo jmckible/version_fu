@@ -55,7 +55,7 @@ module VersionFu
       # Housekeeping on versioned class
       versioned_class.cattr_accessor :original_class
       versioned_class.original_class = self
-      versioned_class.set_table_name versioned_table_name
+      versioned_class.table_name = versioned_table_name
       
       # Version parent association
       versioned_class.belongs_to self.to_s.demodulize.underscore.to_sym, 
