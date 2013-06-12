@@ -86,7 +86,7 @@ module VersionFu
     end
     
     def check_for_new_version
-      instatiate_revision if create_new_version?
+      instantiate_revision if create_new_version?
       true # Never halt save
     end
     
@@ -96,7 +96,7 @@ module VersionFu
       self.class.versioned_columns.detect {|a| __send__ "#{a}_changed?"}
     end
     
-    def instatiate_revision
+    def instantiate_revision
       new_version = versions.build
       versioned_columns.each do |attribute|
         new_version.__send__ "#{attribute}=", __send__(attribute)
