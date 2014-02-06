@@ -29,7 +29,10 @@ module VersionFu
         before_save :check_for_new_version
         
         before_create :id_nil
-
+    
+        def id_null
+          self.id = nil
+        end
       end
       
       # Versioned Model
@@ -93,9 +96,6 @@ module VersionFu
       true # Never halt save
     end
     
-    def id_null
-      self.id = nil
-    end
     
     # This the method to override if you want to have more control over when to version
     def create_new_version?
