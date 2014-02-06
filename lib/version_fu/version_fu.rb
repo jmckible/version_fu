@@ -27,12 +27,7 @@ module VersionFu
         end
 
         before_save :check_for_new_version
-        
-        before_create :id_nil
-    
-        def id_null
-          self.id = nil
-        end
+
       end
       
       # Versioned Model
