@@ -1,3 +1,5 @@
+= {State of the Project}[https://github.com/jmckible/version_fu/wiki/State-of-the-Project]
+
 = version_fu
 
 version_fu is a ActveRecord versioning plugin that that is based on the dirty attribute checking introduced in Rails 2.1. It has been updated for compatibility with Rails 3.
