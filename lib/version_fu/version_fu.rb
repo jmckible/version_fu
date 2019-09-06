@@ -18,7 +18,7 @@ module VersionFu
 
       # Setup versions association
       class_eval do
-        has_many :versions, :class_name  => "#{self.to_s}::#{versioned_class_name}",
+        has_many :versions, :class_name  => "#{self.to_s}#{versioned_class_name}",
                             :foreign_key => versioned_foreign_key,
                             :dependent   => :destroy do
           def latest
@@ -27,6 +27,7 @@ module VersionFu
         end
 
         before_save :check_for_new_version
+
       end
       
       # Versioned Model
@@ -90,6 +91,7 @@ module VersionFu
       true # Never halt save
     end
     
+    
     # This the method to override if you want to have more control over when to version
     def create_new_version?
       # Any versioned column changed?
@@ -101,7 +103,7 @@ module VersionFu
       versioned_columns.each do |attribute|
         new_version.__send__ "#{attribute}=", __send__(attribute)
       end
-      version_number = new_record? ? 1 : version + 1
+      version_number = new_record? ? 1 : version.to_i + 1
       new_version.version = version_number
       self.version = version_number
     end
